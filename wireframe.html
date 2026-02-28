@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Wireframe — JCO</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0b;
+    --surface: #111113;
+    --surface-2: #19191d;
+    --border: #222228;
+    --text: #e8e8ed;
+    --text-dim: #6e6e7a;
+    --accent: #c4f048;
+    --accent-dim: #c4f04820;
+  }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .dim { color: var(--text-dim); }
+  .accent { color: var(--accent); }
+  .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  /* ── WIREFRAME ANNOTATION ── */
+  .wireframe-label {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #444;
+    background: var(--bg);
+    padding: 2px 8px;
+    border: 1px dashed #333;
+    z-index: 10;
+  }
+
+  section {
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(12px);
+    background: #0a0a0bcc;
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  nav .links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  nav .links li {
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  nav .links li:hover { color: var(--text); }
+
+  nav .links li.active {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--accent);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 80px;
+    padding: 120px 40px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-left .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .hero-left h1 {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.08;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-left h1 span {
+    display: block;
+    color: var(--text-dim);
+    font-weight: 400;
+    font-size: 24px;
+    margin-top: 12px;
+    letter-spacing: 0;
+    line-height: 1.5;
+  }
+
+  .hero-left .cta-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 36px;
+  }
+
+  .btn-primary {
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-ghost {
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .stat-card .num {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .stat-card .label {
+    font-size: 13px;
+    color: var(--text-dim);
+    text-align: right;
+    max-width: 140px;
+    line-height: 1.4;
+  }
+
+  .hero-right .availability {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0;
+  }
+
+  .availability .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    padding: 120px 0;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-sidebar {
+    position: sticky;
+    top: 100px;
+  }
+
+  .about-sidebar .photo-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 24px;
+  }
+
+  .about-sidebar .detail-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .about-sidebar .detail-list li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-sidebar .detail-list li .key { color: var(--text-dim); }
+
+  .about-content .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .about-content h2 {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .about-content p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    max-width: 560px;
+  }
+
+  .about-content .resume-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    border-bottom: 1px solid var(--accent-dim);
+    padding-bottom: 2px;
+  }
+
+  /* ── SKILLS ── */
+  .skills {
+    padding: 120px 0;
+    background: var(--surface);
+  }
+
+  .skills-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+  }
+
+  .skills-header h2 {
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .skill-group {
+    background: var(--bg);
+    padding: 32px 28px;
+  }
+
+  .skill-group .group-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 13px;
+    border-bottom: 1px solid #111;
+  }
+
+  .skill-item .name { color: var(--text); }
+
+  .skill-item .bar-wrap {
+    width: 80px;
+    height: 3px;
+    background: var(--border);
+    position: relative;
+  }
+
+  .skill-item .bar-fill {
+    height: 100%;
+    background: var(--accent);
+  }
+
+  /* ── PROJECTS ── */
+  .projects {
+    padding: 120px 0;
+  }
+
+  .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 16px;
+  }
+
+  .projects-header h2 {
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .filter-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 48px;
+  }
+
+  .filter-tab {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+  }
+
+  .filter-tab.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+
+  .project-card:hover {
+    background: var(--surface-2);
+  }
+
+  .project-card:first-child {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 48px 40px;
+  }
+
+  .project-card .project-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .project-card h3 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .project-card .desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  .project-card .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+
+  .project-card .tags span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  .project-card .arrow {
+    font-size: 18px;
+    color: var(--accent);
+    align-self: flex-end;
+  }
+
+  .project-card .img-placeholder {
+    width: 100%;
+    aspect-ratio: 16/10;
+    background: var(--surface-2);
+    border: 1px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #333;
+  }
+
+  /* ── EXPERIENCE ── */
+  .experience {
+    padding: 120px 0;
+    background: var(--surface);
+  }
+
+  .experience h2 {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 60px;
+    letter-spacing: -0.01em;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 200px 1px 1fr;
+    gap: 40px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .timeline-item:first-child { border-top: 1px solid var(--border); }
+
+  .timeline-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    padding-top: 4px;
+  }
+
+  .timeline-line {
+    width: 1px;
+    background: var(--border);
+    position: relative;
+  }
+
+  .timeline-line::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: -3px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .timeline-content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .timeline-content .company {
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .timeline-content .responsibilities {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .timeline-content .responsibilities li {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .timeline-content .responsibilities li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: #333;
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    padding: 120px 0;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+
+  .contact-left .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .contact-left h2 {
+    font-size: 42px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .contact-left p {
+    font-size: 15px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    max-width: 400px;
+    margin-bottom: 32px;
+  }
+
+  .contact-info-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-info-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .contact-info-list li .icon {
+    width: 36px;
+    height: 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .contact-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .form-field label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  .form-field input,
+  .form-field textarea {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+  }
+
+  .form-field textarea { min-height: 140px; resize: vertical; }
+
+  .form-field input:focus,
+  .form-field textarea:focus { border-color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 60px 0 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 80px;
+    margin-bottom: 40px;
+  }
+
+  .footer-brand .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .footer-brand p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    max-width: 300px;
+  }
+
+  .footer-links h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .footer-links ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-links li {
+    font-size: 13px;
+    color: var(--text-dim);
+    cursor: pointer;
+  }
+
+  .footer-links li:hover { color: var(--text); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: #333;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── ANNOTATIONS (wireframe notes) ── */
+  .note {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #555;
+    background: #0f0f12;
+    padding: 4px 8px;
+    border: 1px dashed #2a2a30;
+    pointer-events: none;
+    z-index: 5;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">&lt;JCO /&gt;</div>
+  <ul class="links">
+    <li class="active">Home</li>
+    <li>About</li>
+    <li>Skills</li>
+    <li>Projects</li>
+    <li>Experience</li>
+    <li>Contact</li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section>
+  <span class="wireframe-label">01 / Hero</span>
+  <div class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">// Full-Stack Developer</div>
+      <h1>
+        John Christian<br>Oraa
+        <span>I build scalable, efficient, and user-friendly web applications with clean backend architecture.</span>
+      </h1>
+      <div class="cta-row">
+        <button class="btn-primary">View My Work &darr;</button>
+        <button class="btn-ghost">Contact Me</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-card">
+        <div class="num">5+</div>
+        <div class="label">Years shipping production systems</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">9</div>
+        <div class="label">Projects across e-commerce, gaming & gov</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">4</div>
+        <div class="label">Core technology domains mastered</div>
+      </div>
+      <div class="availability">
+        <span class="dot"></span> Available for new opportunities
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <span class="wireframe-label">02 / About</span>
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-sidebar">
+        <div class="photo-placeholder">[ photo ]</div>
+        <ul class="detail-list">
+          <li><span class="key">Location</span><span>Philippines</span></li>
+          <li><span class="key">Email</span><span>jco@email.com</span></li>
+          <li><span class="key">Status</span><span style="color: #4ade80;">Open to work</span></li>
+        </ul>
+      </div>
+      <div class="about-content">
+        <div class="section-label">// About Me</div>
+        <h2>Backend-focused developer who cares about the whole stack.</h2>
+        <p>With 5+ years of hands-on experience shipping production systems across e-commerce, gaming, and government sectors, I specialize in building robust backend architectures while maintaining strong frontend delivery.</p>
+        <p>I work primarily with Laravel, MySQL, Redis, and RabbitMQ on the backend, and React/Next.js on the frontend. I believe in clean, maintainable code and genuine collaboration.</p>
+        <a href="#" class="resume-link">Download Resume &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills">
+  <span class="wireframe-label">03 / Skills</span>
+  <div class="container">
+    <div class="skills-header">
+      <div>
+        <div class="section-label" style="font-family:'JetBrains Mono';font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:16px;">// Technical Skills</div>
+        <h2>Tools & Expertise</h2>
+      </div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="group-label">Backend</div>
+        <div class="skill-item"><span class="name">PHP</span><div class="bar-wrap"><div class="bar-fill" style="width:95%"></div></div></div>
+        <div class="skill-item"><span class="name">Laravel</span><div class="bar-wrap"><div class="bar-fill" style="width:92%"></div></div></div>
+        <div class="skill-item"><span class="name">API Dev</span><div class="bar-wrap"><div class="bar-fill" style="width:90%"></div></div></div>
+        <div class="skill-item"><span class="name">MySQL</span><div class="bar-wrap"><div class="bar-fill" style="width:90%"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <div class="group-label">Frontend</div>
+        <div class="skill-item"><span class="name">React / Next</span><div class="bar-wrap"><div class="bar-fill" style="width:75%"></div></div></div>
+        <div class="skill-item"><span class="name">HTML / CSS</span><div class="bar-wrap"><div class="bar-fill" style="width:88%"></div></div></div>
+        <div class="skill-item"><span class="name">JavaScript</span><div class="bar-wrap"><div class="bar-fill" style="width:85%"></div></div></div>
+        <div class="skill-item"><span class="name">TypeScript</span><div class="bar-wrap"><div class="bar-fill" style="width:70%"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <div class="group-label">DevOps</div>
+        <div class="skill-item"><span class="name">Git</span><div class="bar-wrap"><div class="bar-fill" style="width:88%"></div></div></div>
+        <div class="skill-item"><span class="name">Docker</span><div class="bar-wrap"><div class="bar-fill" style="width:78%"></div></div></div>
+        <div class="skill-item"><span class="name">CI/CD</span><div class="bar-wrap"><div class="bar-fill" style="width:72%"></div></div></div>
+        <div class="skill-item"><span class="name">Jira</span><div class="bar-wrap"><div class="bar-fill" style="width:82%"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <div class="group-label">AI Tools</div>
+        <div class="skill-item"><span class="name">Claude AI</span><div class="bar-wrap"><div class="bar-fill" style="width:85%"></div></div></div>
+        <div class="skill-item"><span class="name">ChatGPT</span><div class="bar-wrap"><div class="bar-fill" style="width:80%"></div></div></div>
+        <div class="skill-item"><span class="name">Copilot</span><div class="bar-wrap"><div class="bar-fill" style="width:75%"></div></div></div>
+        <div class="skill-item"><span class="name">Cursor</span><div class="bar-wrap"><div class="bar-fill" style="width:70%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects">
+  <span class="wireframe-label">04 / Projects</span>
+  <div class="container">
+    <div class="projects-header">
+      <div>
+        <div class="section-label" style="font-family:'JetBrains Mono';font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:16px;">// Selected Work</div>
+        <h2>Projects</h2>
+      </div>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active">All</button>
+      <button class="filter-tab">Backend</button>
+      <button class="filter-tab">Full Stack</button>
+    </div>
+    <div class="projects-grid">
+      <!-- Featured project (spans 2 cols) -->
+      <div class="project-card">
+        <div>
+          <div class="project-num">01</div>
+          <h3 style="margin: 12px 0;">Bticket E-Commerce System</h3>
+          <div class="desc">End-to-end e-commerce platform handling ticketing, payments, and inventory management for live events.</div>
+          <div class="tags" style="margin-top: 24px;">
+            <span>Laravel</span>
+            <span>MySQL</span>
+            <span>Redis</span>
+            <span>React</span>
+          </div>
+        </div>
+        <div class="img-placeholder">[ project screenshot ]</div>
+      </div>
+      <!-- Regular cards -->
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <h3>Gaming BackOffice</h3>
+        <div class="desc">Admin panel for managing gaming operations, user analytics, and real-time reporting dashboards.</div>
+        <div class="tags">
+          <span>Laravel</span>
+          <span>Vue</span>
+          <span>RabbitMQ</span>
+        </div>
+        <div class="arrow">&nearr;</div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">03</div>
+        <h3>Scholarship Management</h3>
+        <div class="desc">Government system for processing scholarship applications, disbursements, and status tracking.</div>
+        <div class="tags">
+          <span>PHP</span>
+          <span>MySQL</span>
+          <span>jQuery</span>
+        </div>
+        <div class="arrow">&nearr;</div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">04</div>
+        <h3>Real-Time Chat System</h3>
+        <div class="desc">WebSocket-powered messaging platform with channel management and file sharing.</div>
+        <div class="tags">
+          <span>Node.js</span>
+          <span>Socket.io</span>
+          <span>React</span>
+        </div>
+        <div class="arrow">&nearr;</div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">05</div>
+        <h3>API Gateway Service</h3>
+        <div class="desc">Centralized API gateway handling authentication, rate limiting, and request routing.</div>
+        <div class="tags">
+          <span>Laravel</span>
+          <span>Redis</span>
+          <span>Docker</span>
+        </div>
+        <div class="arrow">&nearr;</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience">
+  <span class="wireframe-label">05 / Experience</span>
+  <div class="container">
+    <div class="section-label" style="font-family:'JetBrains Mono';font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);margin-bottom:16px;">// Career</div>
+    <h2>Work Experience</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2023 — Present</div>
+        <div class="timeline-line"></div>
+        <div class="timeline-content">
+          <h3>Full Stack Developer</h3>
+          <div class="company">Betrnk Tours Inc.</div>
+          <ul class="responsibilities">
+            <li>Architected and maintained e-commerce platform serving 10K+ users</li>
+            <li>Built real-time gaming backoffice with WebSocket integration</li>
+            <li>Implemented CI/CD pipelines reducing deployment time by 60%</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2022 — 2023</div>
+        <div class="timeline-line"></div>
+        <div class="timeline-content">
+          <h3>Backend Developer</h3>
+          <div class="company">EK Consulting</div>
+          <ul class="responsibilities">
+            <li>Designed RESTful APIs for enterprise resource planning system</li>
+            <li>Optimized database queries improving response times by 40%</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2021 — 2022</div>
+        <div class="timeline-line"></div>
+        <div class="timeline-content">
+          <h3>Freelance Developer</h3>
+          <div class="company">Self-employed</div>
+          <ul class="responsibilities">
+            <li>Delivered 8+ client projects across web and mobile platforms</li>
+            <li>Built custom CMS and inventory management systems</li>
+          </ul>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2020 — 2021</div>
+        <div class="timeline-line"></div>
+        <div class="timeline-content">
+          <h3>Junior Developer</h3>
+          <div class="company">Government Agency</div>
+          <ul class="responsibilities">
+            <li>Developed scholarship management system for provincial government</li>
+            <li>Maintained legacy PHP applications and migrated to Laravel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact">
+  <span class="wireframe-label">06 / Contact</span>
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <div class="section-label">// Get in Touch</div>
+        <h2>Let's build something together.</h2>
+        <p>Got a project in mind or want to chat about opportunities? I'm always open to discussing new ideas and collaborations.</p>
+        <ul class="contact-info-list">
+          <li><div class="icon">@</div> jcoraa@email.com</li>
+          <li><div class="icon">&oplus;</div> Philippines</li>
+          <li><div class="icon">&lt;/&gt;</div> github.com/jcoraa</li>
+          <li><div class="icon">in</div> linkedin.com/in/jcoraa</li>
+        </ul>
+      </div>
+      <div class="contact-right">
+        <div class="form-field">
+          <label>Name</label>
+          <input type="text" placeholder="Your name">
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com">
+        </div>
+        <div class="form-field">
+          <label>Subject</label>
+          <input type="text" placeholder="Project inquiry">
+        </div>
+        <div class="form-field">
+          <label>Message</label>
+          <textarea placeholder="Tell me about your project..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%; margin-top: 8px;">Send Message &rarr;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">&lt;JCO /&gt;</div>
+        <p>Full-stack developer building scalable web applications with clean architecture and attention to detail.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <ul>
+          <li>Home</li>
+          <li>About</li>
+          <li>Skills</li>
+          <li>Projects</li>
+          <li>Experience</li>
+          <li>Contact</li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Social</h4>
+        <ul>
+          <li>GitHub</li>
+          <li>LinkedIn</li>
+          <li>Twitter</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 John Christian Oraa. All rights reserved.</span>
+      <span>Built with Next.js + Tailwind</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

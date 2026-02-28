@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option A — Terminal / IDE Theme</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #1e1e2e;
+    --surface: #181825;
+    --surface-2: #11111b;
+    --border: #313244;
+    --text: #cdd6f4;
+    --text-dim: #6c7086;
+    --green: #a6e3a1;
+    --blue: #89b4fa;
+    --mauve: #cba6f7;
+    --peach: #fab387;
+    --red: #f38ba8;
+    --yellow: #f9e2af;
+    --teal: #94e2d5;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  /* ── OPTION BADGE ── */
+  .option-badge {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--mauve);
+    color: var(--surface-2);
+    text-align: center;
+    padding: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    z-index: 200;
+  }
+
+  /* ── TITLE BAR ── */
+  .title-bar {
+    position: fixed;
+    top: 32px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    height: 40px;
+  }
+
+  .title-bar .dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .title-bar .dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .title-bar .dots .r { background: var(--red); }
+  .title-bar .dots .y { background: var(--yellow); }
+  .title-bar .dots .g { background: var(--green); }
+
+  .title-bar .tab-bar {
+    display: flex;
+    margin-left: 24px;
+    gap: 0;
+  }
+
+  .title-bar .tab {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 10px 20px;
+    color: var(--text-dim);
+    border-right: 1px solid var(--border);
+    cursor: pointer;
+  }
+
+  .title-bar .tab.active {
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  /* ── LAYOUT: SIDEBAR + MAIN ── */
+  .ide-layout {
+    display: grid;
+    grid-template-columns: 48px 220px 1fr;
+    min-height: 100vh;
+    padding-top: 72px;
+  }
+
+  /* Activity bar */
+  .activity-bar {
+    background: var(--surface-2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 16px;
+    gap: 20px;
+  }
+
+  .activity-bar .icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    color: var(--text-dim);
+    cursor: pointer;
+    border-left: 2px solid transparent;
+  }
+
+  .activity-bar .icon.active {
+    color: var(--text);
+    border-left-color: var(--mauve);
+  }
+
+  /* Explorer sidebar */
+  .explorer {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 12px 0;
+    overflow-y: auto;
+  }
+
+  .explorer .header {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    padding: 4px 16px 12px;
+  }
+
+  .explorer .tree-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    padding: 4px 16px 4px 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+  }
+
+  .explorer .tree-item:hover { background: #ffffff08; color: var(--text); }
+
+  .explorer .tree-item.active {
+    background: #ffffff0c;
+    color: var(--text);
+  }
+
+  .explorer .tree-item .color-cs { color: var(--green); }
+  .explorer .tree-item .color-json { color: var(--yellow); }
+  .explorer .tree-item .color-md { color: var(--blue); }
+  .explorer .tree-item .color-config { color: var(--peach); }
+  .explorer .tree-item .color-folder { color: var(--mauve); }
+
+  .explorer .folder-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 8px 16px 4px;
+    color: var(--text);
+    margin-top: 8px;
+  }
+
+  /* Main content area */
+  .main-content {
+    overflow-y: auto;
+    height: calc(100vh - 72px);
+  }
+
+  /* ── LINE NUMBERS + CODE SECTIONS ── */
+  .code-section {
+    padding: 40px 48px 40px 0;
+    position: relative;
+  }
+
+  .code-section::before {
+    content: '';
+    position: absolute;
+    left: 60px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .code-line {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    min-height: 28px;
+    align-items: baseline;
+    padding: 2px 0;
+  }
+
+  .line-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+    text-align: right;
+    padding-right: 20px;
+    user-select: none;
+    opacity: 0.5;
+  }
+
+  .line-content {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding-left: 20px;
+  }
+
+  .line-content .keyword { color: var(--mauve); }
+  .line-content .type { color: var(--teal); }
+  .line-content .string { color: var(--green); }
+  .line-content .comment { color: var(--text-dim); font-style: italic; }
+  .line-content .method { color: var(--blue); }
+  .line-content .number { color: var(--peach); }
+  .line-content .attr { color: var(--yellow); }
+
+  /* Rendered output blocks */
+  .render-block {
+    margin: 24px 0 24px 80px;
+    max-width: 900px;
+  }
+
+  .render-block.hero-render {
+    padding: 80px 60px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .render-block.hero-render .greeting {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--green);
+    margin-bottom: 16px;
+  }
+
+  .render-block.hero-render h1 {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -0.03em;
+  }
+
+  .render-block.hero-render h1 .highlight {
+    background: linear-gradient(135deg, var(--mauve), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .render-block.hero-render .tagline {
+    font-size: 16px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    max-width: 540px;
+    margin-bottom: 32px;
+  }
+
+  .render-block.hero-render .btn-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .btn-solid {
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 12px 28px;
+    background: var(--mauve);
+    color: var(--surface-2);
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+
+  .btn-outline {
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 12px 28px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 24px 20px;
+    border-radius: 4px;
+  }
+
+  .stat-box .val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--blue);
+  }
+
+  .stat-box .lbl {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  /* ── ABOUT RENDER ── */
+  .about-render {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 48px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 48px;
+    border-radius: 4px;
+  }
+
+  .about-render .photo-area {
+    aspect-ratio: 1;
+    background: var(--surface-2);
+    border: 1px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    border-radius: 4px;
+  }
+
+  .about-render .bio h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .about-render .bio p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .about-render .bio .detail-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .about-render .bio .chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-dim);
+  }
+
+  .about-render .bio .chip .val { color: var(--text); }
+
+  /* ── SKILLS RENDER ── */
+  .skills-render {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 48px;
+    border-radius: 4px;
+  }
+
+  .skills-render h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 32px;
+  }
+
+  .skills-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .skill-col .col-header {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--mauve);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .skill-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 13px;
+  }
+
+  .skill-entry .name { color: var(--text); }
+
+  .skill-entry .level {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    display: flex;
+    gap: 3px;
+  }
+
+  .skill-entry .level .block {
+    width: 8px;
+    height: 8px;
+    background: var(--border);
+    border-radius: 1px;
+  }
+
+  .skill-entry .level .block.filled { background: var(--green); }
+
+  /* ── PROJECTS RENDER ── */
+  .projects-render {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 48px;
+    border-radius: 4px;
+  }
+
+  .projects-render h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .projects-render .filters {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+  }
+
+  .projects-render .filter-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    border-radius: 3px;
+  }
+
+  .projects-render .filter-btn.active {
+    background: var(--mauve);
+    color: var(--surface-2);
+    border-color: var(--mauve);
+  }
+
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .project-row {
+    display: grid;
+    grid-template-columns: 48px 1fr 200px 100px;
+    align-items: center;
+    padding: 20px 24px;
+    background: var(--surface-2);
+    cursor: pointer;
+    border-radius: 3px;
+  }
+
+  .project-row:hover { background: var(--bg); }
+
+  .project-row .idx {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .project-row .info h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .project-row .info .desc {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .project-row .tech {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .project-row .tech span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text-dim);
+  }
+
+  .project-row .arrow {
+    text-align: right;
+    color: var(--text-dim);
+    font-size: 16px;
+  }
+
+  /* ── EXPERIENCE RENDER ── */
+  .exp-render {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 48px;
+    border-radius: 4px;
+  }
+
+  .exp-render h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 32px;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .exp-item .date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .exp-item .role h3 { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+  .exp-item .role .company { font-size: 13px; color: var(--mauve); margin-bottom: 10px; }
+  .exp-item .role .tasks { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+  /* ── CONTACT RENDER ── */
+  .contact-render {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 48px;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .contact-render h2 { font-size: 28px; font-weight: 600; margin-bottom: 12px; }
+  .contact-render p { font-size: 14px; color: var(--text-dim); line-height: 1.6; margin-bottom: 24px; }
+
+  .contact-links { display: flex; flex-direction: column; gap: 12px; }
+
+  .contact-links a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--blue);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .form-stack { display: flex; flex-direction: column; gap: 16px; }
+
+  .form-stack input,
+  .form-stack textarea {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    border-radius: 3px;
+    outline: none;
+  }
+
+  .form-stack textarea { min-height: 100px; resize: vertical; }
+  .form-stack input:focus, .form-stack textarea:focus { border-color: var(--mauve); }
+
+  /* ── SECTION DIVIDERS ── */
+  .section-gap { height: 24px; }
+
+  /* ── STATUS BAR ── */
+  .status-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    background: var(--mauve);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--surface-2);
+    z-index: 100;
+  }
+</style>
+</head>
+<body>
+
+<div class="option-badge">OPTION A — TERMINAL / IDE THEME</div>
+
+<!-- Title bar -->
+<div class="title-bar">
+  <div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+  <div class="tab-bar">
+    <div class="tab active">Portfolio.cs</div>
+    <div class="tab">About.cs</div>
+    <div class="tab">Projects.json</div>
+    <div class="tab">README.md</div>
+  </div>
+</div>
+
+<div class="ide-layout">
+  <!-- Activity Bar -->
+  <div class="activity-bar">
+    <div class="icon active">&#9776;</div>
+    <div class="icon">&#128269;</div>
+    <div class="icon">&#9881;</div>
+    <div class="icon">&#9654;</div>
+  </div>
+
+  <!-- Explorer Sidebar -->
+  <div class="explorer">
+    <div class="header">Explorer</div>
+    <div class="folder-label">&#9660; PORTFOLIO</div>
+    <div class="tree-item"><span class="color-folder">&#9660;</span> src/</div>
+    <div class="tree-item active" style="padding-left:40px"><span class="color-cs">C#</span> Hero.cs</div>
+    <div class="tree-item" style="padding-left:40px"><span class="color-cs">C#</span> About.cs</div>
+    <div class="tree-item" style="padding-left:40px"><span class="color-cs">C#</span> Skills.cs</div>
+    <div class="tree-item" style="padding-left:40px"><span class="color-cs">C#</span> Projects.cs</div>
+    <div class="tree-item" style="padding-left:40px"><span class="color-cs">C#</span> Experience.cs</div>
+    <div class="tree-item" style="padding-left:40px"><span class="color-cs">C#</span> Contact.cs</div>
+    <div class="tree-item"><span class="color-folder">&#9660;</span> data/</div>
+    <div class="tree-item" style="padding-left:40px"><span class="color-json">{ }</span> projects.json</div>
+    <div class="tree-item" style="padding-left:40px"><span class="color-json">{ }</span> skills.json</div>
+    <div class="tree-item"><span class="color-config">&#9881;</span> appsettings.json</div>
+    <div class="tree-item"><span class="color-md">#</span> README.md</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- HERO as code + render -->
+    <div class="code-section">
+      <div class="code-line"><span class="line-num">1</span><span class="line-content"><span class="keyword">namespace</span> Portfolio.Sections;</span></div>
+      <div class="code-line"><span class="line-num">2</span><span class="line-content"></span></div>
+      <div class="code-line"><span class="line-num">3</span><span class="line-content"><span class="keyword">public class</span> <span class="type">Hero</span> : <span class="type">Section</span></span></div>
+      <div class="code-line"><span class="line-num">4</span><span class="line-content">{</span></div>
+      <div class="code-line"><span class="line-num">5</span><span class="line-content">    <span class="keyword">public string</span> <span class="attr">Name</span> => <span class="string">"John Christian Oraa"</span>;</span></div>
+      <div class="code-line"><span class="line-num">6</span><span class="line-content">    <span class="keyword">public string</span> <span class="attr">Role</span> => <span class="string">"C# / .NET Developer"</span>;</span></div>
+      <div class="code-line"><span class="line-num">7</span><span class="line-content">    <span class="keyword">public override void</span> <span class="method">Render</span>() =></span></div>
+      <div class="code-line"><span class="line-num">8</span><span class="line-content"></span></div>
+
+      <div class="render-block hero-render">
+        <div class="greeting">$ dotnet run --project Portfolio</div>
+        <h1>John Christian<br><span class="highlight">Oraa</span></h1>
+        <div class="tagline">C# / .NET developer building scalable backend systems, clean APIs, and production-grade applications across enterprise and web domains.</div>
+        <div class="btn-row">
+          <button class="btn-solid">View Projects</button>
+          <button class="btn-outline">Download CV</button>
+        </div>
+      </div>
+
+      <div class="render-block">
+        <div class="stats-row">
+          <div class="stat-box"><div class="val">5+</div><div class="lbl">Years experience</div></div>
+          <div class="stat-box"><div class="val">9</div><div class="lbl">Projects shipped</div></div>
+          <div class="stat-box"><div class="val">.NET</div><div class="lbl">Primary stack</div></div>
+          <div class="stat-box"><div class="val">C#</div><div class="lbl">Core language</div></div>
+        </div>
+      </div>
+
+      <div class="code-line"><span class="line-num">9</span><span class="line-content">}</span></div>
+    </div>
+
+    <div class="section-gap"></div>
+
+    <!-- ABOUT -->
+    <div class="code-section">
+      <div class="code-line"><span class="line-num">11</span><span class="line-content"><span class="comment">// --- About Section ---</span></span></div>
+      <div class="code-line"><span class="line-num">12</span><span class="line-content"><span class="keyword">public class</span> <span class="type">About</span> : <span class="type">Section</span></span></div>
+      <div class="code-line"><span class="line-num">13</span><span class="line-content">{</span></div>
+
+      <div class="render-block">
+        <div class="about-render">
+          <div class="photo-area">[ photo ]</div>
+          <div class="bio">
+            <h2>About Me</h2>
+            <p>Backend-focused developer with 5+ years building production systems. I specialize in C#/.NET ecosystems — from ASP.NET Core APIs to Entity Framework, Azure services, and microservice architectures.</p>
+            <p>Previously shipped software across e-commerce, gaming, and government sectors. I care about clean code, solid architecture, and shipping things that work.</p>
+            <div class="detail-chips">
+              <div class="chip">Location: <span class="val">Philippines</span></div>
+              <div class="chip">Stack: <span class="val">.NET 8</span></div>
+              <div class="chip">Status: <span class="val" style="color:var(--green)">Open to work</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-line"><span class="line-num">14</span><span class="line-content">}</span></div>
+    </div>
+
+    <div class="section-gap"></div>
+
+    <!-- SKILLS -->
+    <div class="code-section">
+      <div class="code-line"><span class="line-num">16</span><span class="line-content"><span class="comment">// --- Skills Section ---</span></span></div>
+      <div class="code-line"><span class="line-num">17</span><span class="line-content"><span class="keyword">public class</span> <span class="type">Skills</span> : <span class="type">IEnumerable</span>&lt;<span class="type">Skill</span>&gt;</span></div>
+      <div class="code-line"><span class="line-num">18</span><span class="line-content">{</span></div>
+
+      <div class="render-block">
+        <div class="skills-render">
+          <h2>Technical Skills</h2>
+          <div class="skills-columns">
+            <div class="skill-col">
+              <div class="col-header">Backend / .NET</div>
+              <div class="skill-entry"><span class="name">C#</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span></div></div>
+              <div class="skill-entry"><span class="name">ASP.NET Core</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span></div></div>
+              <div class="skill-entry"><span class="name">Entity Framework</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span></div></div>
+              <div class="skill-entry"><span class="name">SQL Server</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span></div></div>
+              <div class="skill-entry"><span class="name">SignalR</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span><span class="block"></span></div></div>
+            </div>
+            <div class="skill-col">
+              <div class="col-header">Frontend</div>
+              <div class="skill-entry"><span class="name">Blazor</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span><span class="block"></span></div></div>
+              <div class="skill-entry"><span class="name">React / Next.js</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span></div></div>
+              <div class="skill-entry"><span class="name">TypeScript</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span><span class="block"></span></div></div>
+              <div class="skill-entry"><span class="name">HTML / CSS</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span></div></div>
+            </div>
+            <div class="skill-col">
+              <div class="col-header">DevOps / Cloud</div>
+              <div class="skill-entry"><span class="name">Azure</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span><span class="block"></span></div></div>
+              <div class="skill-entry"><span class="name">Docker</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span><span class="block"></span></div></div>
+              <div class="skill-entry"><span class="name">Git</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span></div></div>
+              <div class="skill-entry"><span class="name">CI/CD</span><div class="level"><span class="block filled"></span><span class="block filled"></span><span class="block filled"></span><span class="block"></span><span class="block"></span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-line"><span class="line-num">19</span><span class="line-content">}</span></div>
+    </div>
+
+    <div class="section-gap"></div>
+
+    <!-- PROJECTS -->
+    <div class="code-section">
+      <div class="code-line"><span class="line-num">21</span><span class="line-content"><span class="comment">// --- Projects Section ---</span></span></div>
+      <div class="code-line"><span class="line-num">22</span><span class="line-content"><span class="keyword">public class</span> <span class="type">Projects</span> : <span class="type">Section</span></span></div>
+      <div class="code-line"><span class="line-num">23</span><span class="line-content">{</span></div>
+
+      <div class="render-block">
+        <div class="projects-render">
+          <h2>Selected Projects</h2>
+          <div class="filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Backend</button>
+            <button class="filter-btn">Full Stack</button>
+            <button class="filter-btn">API</button>
+          </div>
+          <div class="project-list">
+            <div class="project-row">
+              <div class="idx">01</div>
+              <div class="info"><h3>Bticket E-Commerce</h3><div class="desc">End-to-end ticketing & payment platform</div></div>
+              <div class="tech"><span>C#</span><span>.NET</span><span>SQL Server</span></div>
+              <div class="arrow">&rarr;</div>
+            </div>
+            <div class="project-row">
+              <div class="idx">02</div>
+              <div class="info"><h3>Gaming BackOffice</h3><div class="desc">Real-time admin panel & analytics</div></div>
+              <div class="tech"><span>ASP.NET</span><span>SignalR</span></div>
+              <div class="arrow">&rarr;</div>
+            </div>
+            <div class="project-row">
+              <div class="idx">03</div>
+              <div class="info"><h3>Scholarship System</h3><div class="desc">Government application & tracking</div></div>
+              <div class="tech"><span>C#</span><span>EF Core</span><span>Blazor</span></div>
+              <div class="arrow">&rarr;</div>
+            </div>
+            <div class="project-row">
+              <div class="idx">04</div>
+              <div class="info"><h3>API Gateway Service</h3><div class="desc">Auth, rate limiting, request routing</div></div>
+              <div class="tech"><span>.NET</span><span>Redis</span><span>Docker</span></div>
+              <div class="arrow">&rarr;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-line"><span class="line-num">24</span><span class="line-content">}</span></div>
+    </div>
+
+    <div class="section-gap"></div>
+
+    <!-- EXPERIENCE -->
+    <div class="code-section">
+      <div class="code-line"><span class="line-num">26</span><span class="line-content"><span class="comment">// --- Experience ---</span></span></div>
+      <div class="code-line"><span class="line-num">27</span><span class="line-content"><span class="keyword">public record</span> <span class="type">Experience</span>(<span class="type">string</span> Role, <span class="type">string</span> Company, <span class="type">DateRange</span> Period);</span></div>
+
+      <div class="render-block">
+        <div class="exp-render">
+          <h2>Work Experience</h2>
+          <div class="exp-item">
+            <div class="date">2023 — Present</div>
+            <div class="role">
+              <h3>Full Stack Developer</h3>
+              <div class="company">Betrnk Tours Inc.</div>
+              <div class="tasks">Architected e-commerce platform &bull; Built real-time gaming backoffice &bull; Implemented CI/CD pipelines</div>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="date">2022 — 2023</div>
+            <div class="role">
+              <h3>Backend Developer</h3>
+              <div class="company">EK Consulting</div>
+              <div class="tasks">Designed RESTful APIs &bull; Optimized database performance &bull; Mentored junior developers</div>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="date">2021 — 2022</div>
+            <div class="role">
+              <h3>Freelance Developer</h3>
+              <div class="company">Self-employed</div>
+              <div class="tasks">Delivered 8+ client projects &bull; Built custom CMS systems</div>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="date">2020 — 2021</div>
+            <div class="role">
+              <h3>Junior Developer</h3>
+              <div class="company">Government Agency</div>
+              <div class="tasks">Scholarship management system &bull; Legacy migration to modern stack</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-line"><span class="line-num">28</span><span class="line-content"><span class="comment">// end experience</span></span></div>
+    </div>
+
+    <div class="section-gap"></div>
+
+    <!-- CONTACT -->
+    <div class="code-section">
+      <div class="code-line"><span class="line-num">30</span><span class="line-content"><span class="comment">// --- Contact ---</span></span></div>
+      <div class="code-line"><span class="line-num">31</span><span class="line-content"><span class="keyword">public async Task</span>&lt;<span class="type">Response</span>&gt; <span class="method">SendMessage</span>(<span class="type">ContactForm</span> form)</span></div>
+      <div class="code-line"><span class="line-num">32</span><span class="line-content">{</span></div>
+
+      <div class="render-block">
+        <div class="contact-render">
+          <div>
+            <h2>Let's Connect</h2>
+            <p>Have a project in mind or just want to talk code? I'm always up for a conversation about .NET, clean architecture, or your next big idea.</p>
+            <div class="contact-links">
+              <a href="#">&#9993; jcoraa@email.com</a>
+              <a href="#">&#9741; github.com/jcoraa</a>
+              <a href="#">&#128101; linkedin.com/in/jcoraa</a>
+              <a href="#">&#127760; Philippines</a>
+            </div>
+          </div>
+          <div class="form-stack">
+            <input type="text" placeholder="Your name">
+            <input type="email" placeholder="your@email.com">
+            <input type="text" placeholder="Subject">
+            <textarea placeholder="Your message..."></textarea>
+            <button class="btn-solid" style="width:100%">Send Message</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-line"><span class="line-num">33</span><span class="line-content">}</span></div>
+    </div>
+
+    <div style="height: 60px;"></div>
+  </div>
+</div>
+
+<!-- Status Bar -->
+<div class="status-bar">
+  <span>&#9654; Portfolio.sln &mdash; C# 12 &mdash; .NET 8</span>
+  <span>Ln 33, Col 1 &bull; UTF-8 &bull; CRLF</span>
+</div>
+
+</body>
+</html>

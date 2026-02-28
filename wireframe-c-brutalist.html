@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option C — Brutalist / Monochrome</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #fafafa;
+    --ink: #0a0a0a;
+    --gray: #888;
+    --light: #ddd;
+    --highlight: #0a0a0a;
+    --invert-bg: #0a0a0a;
+    --invert-text: #fafafa;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  .mono { font-family: 'Space Mono', monospace; }
+
+  /* ── OPTION BADGE ── */
+  .option-badge {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--ink);
+    color: var(--bg);
+    text-align: center;
+    padding: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    z-index: 200;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 32px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+    border-bottom: 3px solid var(--ink);
+  }
+
+  nav .logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  nav .links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  nav .links li {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray);
+    cursor: pointer;
+  }
+
+  nav .links li:hover {
+    color: var(--ink);
+    text-decoration: line-through;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 32px 80px;
+    padding-top: 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .hero .oversized-name {
+    font-size: clamp(80px, 12vw, 160px);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    margin-bottom: 40px;
+  }
+
+  .hero .oversized-name .outline {
+    -webkit-text-stroke: 2px var(--ink);
+    color: transparent;
+  }
+
+  .hero .hero-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    align-items: end;
+  }
+
+  .hero .hero-bottom .tagline {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--gray);
+    max-width: 360px;
+  }
+
+  .hero .hero-bottom .role-block {
+    text-align: center;
+  }
+
+  .hero .hero-bottom .role-block .role {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border: 2px solid var(--ink);
+    padding: 14px 28px;
+    display: inline-block;
+  }
+
+  .hero .hero-bottom .cta-block {
+    text-align: right;
+  }
+
+  .hero .hero-bottom .cta-block .btn-big {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    padding: 16px 40px;
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  /* ── HORIZONTAL STATS STRIP ── */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .stats-strip .stat {
+    padding: 40px 32px;
+    border-right: 1px solid var(--light);
+    text-align: center;
+  }
+
+  .stats-strip .stat:last-child { border-right: none; }
+
+  .stats-strip .stat .val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+  }
+
+  .stats-strip .stat .lbl {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    padding: 80px 0;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+  }
+
+  .about-inner .left-col {
+    position: relative;
+  }
+
+  .about-inner .left-col .section-num {
+    font-family: 'Outfit', sans-serif;
+    font-size: 120px;
+    font-weight: 900;
+    color: var(--light);
+    line-height: 1;
+    position: absolute;
+    top: -20px;
+    left: 0;
+  }
+
+  .about-inner .left-col .section-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-top: 100px;
+  }
+
+  .about-inner .left-col .photo-box {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--light);
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  .about-inner .right-col h2 {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+  }
+
+  .about-inner .right-col p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 16px;
+    max-width: 560px;
+  }
+
+  .about-inner .right-col .facts {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .about-inner .right-col .facts .fact {
+    padding: 16px 0;
+    border-top: 1px solid var(--light);
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+
+  .about-inner .right-col .facts .fact .key {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+  }
+
+  /* ── SKILLS ── */
+  .skills {
+    padding: 80px 0;
+    background: var(--invert-bg);
+    color: var(--invert-text);
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .skills .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 60px;
+  }
+
+  .skills .section-header h2 {
+    font-size: 48px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+
+  .skills .section-header .num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .skills-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .skills-table tr {
+    border-bottom: 1px solid #222;
+  }
+
+  .skills-table td {
+    padding: 14px 0;
+    font-size: 14px;
+  }
+
+  .skills-table td:first-child {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    width: 160px;
+  }
+
+  .skills-table td:nth-child(2) {
+    font-weight: 500;
+  }
+
+  .skills-table td:last-child {
+    text-align: right;
+    width: 200px;
+  }
+
+  .skills-table .bar-track {
+    width: 160px;
+    height: 4px;
+    background: #222;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+  }
+
+  .skills-table .bar-track .bar-val {
+    height: 100%;
+    background: #fff;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-section {
+    padding: 80px 0;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .projects-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .projects-section .section-header h2 {
+    font-size: 48px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+
+  .projects-section .filter-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .projects-section .filter-row button {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 10px 20px;
+    border: 2px solid var(--light);
+    background: transparent;
+    color: var(--gray);
+    cursor: pointer;
+  }
+
+  .projects-section .filter-row button.active {
+    border-color: var(--ink);
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .project-tile {
+    border: 1px solid var(--light);
+    padding: 40px 32px;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin: -1px 0 0 -1px;
+    position: relative;
+  }
+
+  .project-tile:hover {
+    background: var(--ink);
+    color: var(--bg);
+    z-index: 2;
+  }
+
+  .project-tile:first-child {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 56px 40px;
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .project-tile .num {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+
+  .project-tile:first-child .num { color: #666; }
+
+  .project-tile h3 {
+    font-size: 24px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+
+  .project-tile .desc {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .project-tile:first-child .desc { color: #999; }
+  .project-tile:hover .desc { color: #999; }
+
+  .project-tile .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .project-tile .tags span {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border: 1px solid var(--light);
+  }
+
+  .project-tile:first-child .tags span { border-color: #333; color: #888; }
+  .project-tile:hover .tags span { border-color: #444; color: #aaa; }
+
+  .project-tile .screenshot {
+    background: #1a1a1a;
+    aspect-ratio: 16/10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: #444;
+    border: 1px dashed #333;
+  }
+
+  /* ── EXPERIENCE ── */
+  .experience {
+    padding: 80px 0;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .experience .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+  }
+
+  .experience .section-header h2 {
+    font-size: 48px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+
+  .exp-entries {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exp-entry {
+    display: grid;
+    grid-template-columns: 160px 1fr 280px;
+    gap: 40px;
+    padding: 32px 0;
+    border-top: 2px solid var(--light);
+    align-items: start;
+  }
+
+  .exp-entry:first-child { border-top: 3px solid var(--ink); }
+
+  .exp-entry .date {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+  }
+
+  .exp-entry .main h3 {
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .exp-entry .main .company {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+
+  .exp-entry .main .bullets {
+    list-style: none;
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  .exp-entry .main .bullets li::before {
+    content: '//';
+    font-family: 'Space Mono', monospace;
+    color: var(--light);
+    margin-right: 8px;
+  }
+
+  .exp-entry .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-end;
+  }
+
+  .exp-entry .stack span {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border: 1px solid var(--light);
+    color: var(--gray);
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    padding: 80px 0;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+
+  .contact-inner .left h2 {
+    font-size: 56px;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+
+  .contact-inner .left p {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .contact-inner .left .contact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 14px;
+  }
+
+  .contact-inner .left .contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .contact-inner .left .contact-list .marker {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    width: 80px;
+    color: var(--gray);
+  }
+
+  .contact-inner .right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .contact-inner .right input,
+  .contact-inner .right textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--light);
+    padding: 20px 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .contact-inner .right textarea {
+    min-height: 120px;
+    resize: none;
+  }
+
+  .contact-inner .right input:focus,
+  .contact-inner .right textarea:focus {
+    border-bottom-color: var(--ink);
+  }
+
+  .contact-inner .right .send-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    padding: 20px 40px;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 32px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 0;
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-inner .left {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #666;
+  }
+
+  .footer-inner .right {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .footer-inner .right li {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #666;
+    cursor: pointer;
+  }
+
+  .footer-inner .right li:hover { color: var(--bg); }
+</style>
+</head>
+<body>
+
+<div class="option-badge">OPTION C — BRUTALIST / MONOCHROME</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">JCO.</div>
+  <ul class="links">
+    <li>About</li>
+    <li>Skills</li>
+    <li>Work</li>
+    <li>Career</li>
+    <li>Contact</li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="oversized-name">
+      JOHN<br>
+      <span class="outline">CHRISTIAN</span><br>
+      ORAA
+    </div>
+    <div class="hero-bottom">
+      <div class="tagline">Building scalable backend systems and clean APIs with the .NET ecosystem. Five years of production software.</div>
+      <div class="role-block">
+        <div class="role">C# / .NET Developer</div>
+      </div>
+      <div class="cta-block">
+        <button class="btn-big">View Projects &darr;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat"><div class="val">5+</div><div class="lbl">Years Experience</div></div>
+  <div class="stat"><div class="val">9</div><div class="lbl">Projects Shipped</div></div>
+  <div class="stat"><div class="val">C#</div><div class="lbl">Core Language</div></div>
+  <div class="stat"><div class="val">.NET</div><div class="lbl">Primary Stack</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="left-col">
+        <div class="section-num">01</div>
+        <div class="section-title">About</div>
+        <div class="photo-box">[ portrait ]</div>
+      </div>
+      <div class="right-col">
+        <h2>Backend-focused developer who ships things that work.</h2>
+        <p>5+ years of production experience across e-commerce, gaming, and government. I specialize in C#/.NET — ASP.NET Core, Entity Framework, Azure, and microservice architectures.</p>
+        <p>I believe in clean, testable code, solid architecture, and genuine collaboration. No over-engineering. No buzzwords. Just software that works.</p>
+        <div class="facts">
+          <div class="fact"><span class="key">Location</span><span>Philippines</span></div>
+          <div class="fact"><span class="key">Stack</span><span>.NET 8 / C# 12</span></div>
+          <div class="fact"><span class="key">Experience</span><span>5+ years</span></div>
+          <div class="fact"><span class="key">Status</span><span>Open to work</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS (inverted) -->
+<section class="skills">
+  <div class="container">
+    <div class="section-header">
+      <h2>Skills</h2>
+      <div class="num">02 / Technical</div>
+    </div>
+    <table class="skills-table">
+      <tr><td>Backend</td><td>C#</td><td><span class="bar-track"><span class="bar-val" style="width:95%"></span></span></td></tr>
+      <tr><td></td><td>ASP.NET Core</td><td><span class="bar-track"><span class="bar-val" style="width:90%"></span></span></td></tr>
+      <tr><td></td><td>Entity Framework</td><td><span class="bar-track"><span class="bar-val" style="width:88%"></span></span></td></tr>
+      <tr><td></td><td>SQL Server</td><td><span class="bar-track"><span class="bar-val" style="width:88%"></span></span></td></tr>
+      <tr><td></td><td>SignalR</td><td><span class="bar-track"><span class="bar-val" style="width:72%"></span></span></td></tr>
+      <tr><td>Frontend</td><td>Blazor</td><td><span class="bar-track"><span class="bar-val" style="width:70%"></span></span></td></tr>
+      <tr><td></td><td>React / Next.js</td><td><span class="bar-track"><span class="bar-val" style="width:78%"></span></span></td></tr>
+      <tr><td></td><td>TypeScript</td><td><span class="bar-track"><span class="bar-val" style="width:72%"></span></span></td></tr>
+      <tr><td>DevOps</td><td>Azure</td><td><span class="bar-track"><span class="bar-val" style="width:70%"></span></span></td></tr>
+      <tr><td></td><td>Docker</td><td><span class="bar-track"><span class="bar-val" style="width:72%"></span></span></td></tr>
+      <tr><td></td><td>Git</td><td><span class="bar-track"><span class="bar-val" style="width:85%"></span></span></td></tr>
+      <tr><td></td><td>CI/CD</td><td><span class="bar-track"><span class="bar-val" style="width:70%"></span></span></td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Projects</h2>
+    </div>
+    <div class="filter-row">
+      <button class="active">All</button>
+      <button>Backend</button>
+      <button>Full Stack</button>
+      <button>API</button>
+    </div>
+    <div class="project-grid">
+      <div class="project-tile">
+        <div>
+          <div class="num">Project 01</div>
+          <h3>Bticket E-Commerce</h3>
+          <div class="desc">End-to-end ticketing platform handling payments, inventory, and live event management for 10K+ users.</div>
+          <div class="tags"><span>C#</span><span>.NET 8</span><span>SQL Server</span><span>React</span></div>
+        </div>
+        <div class="screenshot">[ project screenshot ]</div>
+      </div>
+      <div class="project-tile">
+        <div class="num">Project 02</div>
+        <h3>Gaming BackOffice</h3>
+        <div class="desc">Real-time admin panel with analytics, user management, and reporting.</div>
+        <div class="tags"><span>ASP.NET</span><span>SignalR</span><span>Redis</span></div>
+      </div>
+      <div class="project-tile">
+        <div class="num">Project 03</div>
+        <h3>Scholarship System</h3>
+        <div class="desc">Government app processing and tracking scholarship disbursements.</div>
+        <div class="tags"><span>C#</span><span>EF Core</span><span>Blazor</span></div>
+      </div>
+      <div class="project-tile">
+        <div class="num">Project 04</div>
+        <h3>API Gateway</h3>
+        <div class="desc">Centralized auth, rate limiting, and routing across microservices.</div>
+        <div class="tags"><span>.NET</span><span>Redis</span><span>Docker</span></div>
+      </div>
+      <div class="project-tile">
+        <div class="num">Project 05</div>
+        <h3>Real-Time Chat</h3>
+        <div class="desc">WebSocket messaging with channels, presence, and file sharing.</div>
+        <div class="tags"><span>SignalR</span><span>Blazor</span><span>Azure</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience">
+  <div class="container">
+    <div class="section-header">
+      <h2>Career</h2>
+    </div>
+    <div class="exp-entries">
+      <div class="exp-entry">
+        <div class="date">2023 — Now</div>
+        <div class="main">
+          <h3>Full Stack Developer</h3>
+          <div class="company">Betrnk Tours Inc.</div>
+          <ul class="bullets">
+            <li>Architected e-commerce platform serving 10K+ users</li>
+            <li>Built real-time gaming backoffice with SignalR</li>
+            <li>Implemented CI/CD reducing deployment time by 60%</li>
+          </ul>
+        </div>
+        <div class="stack"><span>C#</span><span>.NET</span><span>SQL Server</span><span>React</span><span>Docker</span></div>
+      </div>
+      <div class="exp-entry">
+        <div class="date">2022 — 2023</div>
+        <div class="main">
+          <h3>Backend Developer</h3>
+          <div class="company">EK Consulting</div>
+          <ul class="bullets">
+            <li>Designed RESTful APIs for enterprise resource planning</li>
+            <li>Optimized database queries, 40% faster response times</li>
+          </ul>
+        </div>
+        <div class="stack"><span>ASP.NET</span><span>EF Core</span><span>Azure</span></div>
+      </div>
+      <div class="exp-entry">
+        <div class="date">2021 — 2022</div>
+        <div class="main">
+          <h3>Freelance Dev</h3>
+          <div class="company">Self-employed</div>
+          <ul class="bullets">
+            <li>Delivered 8+ client projects across web and mobile</li>
+            <li>Built custom CMS and inventory systems</li>
+          </ul>
+        </div>
+        <div class="stack"><span>C#</span><span>.NET</span><span>React</span></div>
+      </div>
+      <div class="exp-entry">
+        <div class="date">2020 — 2021</div>
+        <div class="main">
+          <h3>Junior Developer</h3>
+          <div class="company">Government Agency</div>
+          <ul class="bullets">
+            <li>Scholarship management system for provincial government</li>
+            <li>Legacy PHP migration to modern .NET stack</li>
+          </ul>
+        </div>
+        <div class="stack"><span>C#</span><span>SQL</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="left">
+        <h2>LET'S<br>TALK.</h2>
+        <p>Got a .NET project, need a backend developer, or just want to chat about clean architecture? I'm all ears.</p>
+        <ul class="contact-list">
+          <li><span class="marker">Email</span> jcoraa@email.com</li>
+          <li><span class="marker">GitHub</span> github.com/jcoraa</li>
+          <li><span class="marker">LinkedIn</span> linkedin.com/in/jcoraa</li>
+          <li><span class="marker">Location</span> Philippines</li>
+        </ul>
+      </div>
+      <div class="right">
+        <input type="text" placeholder="Name">
+        <input type="email" placeholder="Email">
+        <input type="text" placeholder="Subject">
+        <textarea placeholder="Message"></textarea>
+        <button class="send-btn">Send Message &rarr;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="left">&copy; 2025 JCO. All rights reserved.</div>
+      <ul class="right">
+        <li>GitHub</li>
+        <li>LinkedIn</li>
+        <li>Twitter</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

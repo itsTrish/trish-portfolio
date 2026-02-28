@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option B — Editorial / Magazine</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f5f0eb;
+    --surface: #ebe5dd;
+    --surface-2: #e0d8cd;
+    --ink: #1a1814;
+    --ink-dim: #7a756d;
+    --ink-light: #b0aa9f;
+    --accent: #c23616;
+    --border: #d4cdc3;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  .serif { font-family: 'Instrument Serif', serif; }
+  .mono { font-family: 'DM Mono', monospace; }
+
+  /* ── OPTION BADGE ── */
+  .option-badge {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    z-index: 200;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 32px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 16px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    color: var(--ink);
+  }
+
+  nav .links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  nav .links li {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    cursor: pointer;
+  }
+
+  nav .links li:hover { color: var(--ink); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 200px 0 120px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 60px;
+    align-items: end;
+  }
+
+  .hero-left .issue-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-dim);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-left .issue-tag .line {
+    width: 40px;
+    height: 1px;
+    background: var(--ink-dim);
+  }
+
+  .hero-left h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 84px;
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+  }
+
+  .hero-left h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-left .subtitle {
+    font-size: 16px;
+    color: var(--ink-dim);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .hero-right {
+    text-align: right;
+  }
+
+  .hero-right .photo-frame {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-light);
+    margin-bottom: 16px;
+  }
+
+  .hero-right .caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── MARQUEE / TICKER ── */
+  .ticker {
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-light);
+  }
+
+  .ticker-content {
+    display: inline-block;
+    animation: scroll 20s linear infinite;
+  }
+
+  .ticker-content .sep { color: var(--accent); margin: 0 24px; }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── ABOUT ── */
+  .about {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-header {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+
+  .section-header .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-dim);
+    padding-top: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .section-header .label .num {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .section-header h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+
+  .about-columns {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 40px;
+  }
+
+  .about-columns .spacer { }
+
+  .about-columns .col p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-dim);
+    margin-bottom: 16px;
+  }
+
+  .about-columns .col .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .about-columns .col .detail-row .key { color: var(--ink-light); }
+
+  .resume-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--accent);
+  }
+
+  /* ── SKILLS ── */
+  .skills {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skills-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+
+  .skill-category {
+    padding: 32px;
+    border: 1px solid var(--border);
+    margin: -1px 0 0 -1px;
+  }
+
+  .skill-category .cat-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  .skill-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+
+  .skill-line .name { color: var(--ink); }
+
+  .skill-line .dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .skill-line .dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+  }
+
+  .skill-line .dots span.filled {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  /* ── PROJECTS ── */
+  .projects {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-filters {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 48px;
+    padding-left: 240px;
+  }
+
+  .project-filters button {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: transparent;
+    border: none;
+    color: var(--ink-light);
+    cursor: pointer;
+    padding: 4px 0;
+    border-bottom: 1px solid transparent;
+  }
+
+  .project-filters button.active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+  }
+
+  .project-entries {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-entry {
+    display: grid;
+    grid-template-columns: 200px 60px 1fr 240px;
+    gap: 40px;
+    align-items: baseline;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .project-entry:hover { background: var(--surface); margin: 0 -20px; padding: 32px 20px; }
+
+  .project-entry .cat {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+  }
+
+  .project-entry .num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    color: var(--ink-light);
+  }
+
+  .project-entry .title-block h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+
+  .project-entry .title-block .desc {
+    font-size: 13px;
+    color: var(--ink-dim);
+    line-height: 1.5;
+  }
+
+  .project-entry .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: flex-end;
+  }
+
+  .project-entry .tech-list span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    color: var(--ink-dim);
+  }
+
+  /* ── EXPERIENCE ── */
+  .experience {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-list {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+  }
+
+  .exp-list .spacer-col { }
+
+  .exp-items {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exp-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .exp-row .period {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-light);
+    padding-top: 4px;
+  }
+
+  .exp-row .info h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 2px;
+  }
+
+  .exp-row .info .org {
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .exp-row .info .summary {
+    font-size: 13px;
+    color: var(--ink-dim);
+    line-height: 1.6;
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 40px;
+  }
+
+  .contact-layout .cta-col h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .contact-layout .cta-col p {
+    font-size: 14px;
+    color: var(--ink-dim);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .contact-layout .cta-col .links-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .contact-layout .cta-col .links-list li {
+    font-size: 13px;
+    color: var(--ink-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .contact-layout .cta-col .links-list li .ico { color: var(--accent); }
+
+  .contact-layout .form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-layout .form-col input,
+  .contact-layout .form-col textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .contact-layout .form-col textarea {
+    min-height: 100px;
+    resize: none;
+    border: 1px solid var(--border);
+    padding: 14px;
+    margin-top: 8px;
+  }
+
+  .contact-layout .form-col input:focus,
+  .contact-layout .form-col textarea:focus { border-color: var(--accent); }
+
+  .contact-layout .form-col .submit-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 16px 32px;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 8px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-inner .copyright {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .footer-inner .social {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .footer-inner .social li {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-dim);
+    cursor: pointer;
+  }
+
+  .footer-inner .social li:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<div class="option-badge">OPTION B — EDITORIAL / MAGAZINE LAYOUT</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">JCO</div>
+  <ul class="links">
+    <li>About</li>
+    <li>Skills</li>
+    <li>Work</li>
+    <li>Experience</li>
+    <li>Contact</li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="issue-tag"><span class="line"></span>C# / .NET Developer &mdash; Portfolio 2025</div>
+        <h1>John<br>Christian<br><em>Oraa</em></h1>
+        <div class="subtitle">I build scalable backend systems and clean APIs using the .NET ecosystem. Five years of shipping production software across enterprise, gaming, and government.</div>
+      </div>
+      <div class="hero-right">
+        <div class="photo-frame">[ portrait photo ]</div>
+        <div class="caption">Based in Philippines &bull; Open to opportunities</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-content">
+    C# <span class="sep">&bull;</span> ASP.NET Core <span class="sep">&bull;</span> Entity Framework <span class="sep">&bull;</span> SQL Server <span class="sep">&bull;</span> Azure <span class="sep">&bull;</span> Docker <span class="sep">&bull;</span> SignalR <span class="sep">&bull;</span> Blazor <span class="sep">&bull;</span> REST APIs <span class="sep">&bull;</span> Microservices <span class="sep">&bull;</span>
+    C# <span class="sep">&bull;</span> ASP.NET Core <span class="sep">&bull;</span> Entity Framework <span class="sep">&bull;</span> SQL Server <span class="sep">&bull;</span> Azure <span class="sep">&bull;</span> Docker <span class="sep">&bull;</span> SignalR <span class="sep">&bull;</span> Blazor <span class="sep">&bull;</span> REST APIs <span class="sep">&bull;</span> Microservices <span class="sep">&bull;</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="container">
+    <div class="section-header">
+      <div class="label"><span class="num">01</span> About</div>
+      <h2>Backend-focused developer who cares about the whole product.</h2>
+    </div>
+    <div class="about-columns">
+      <div class="spacer"></div>
+      <div class="col">
+        <p>With 5+ years of hands-on experience shipping production systems, I specialize in C#/.NET architectures — from ASP.NET Core APIs to Entity Framework, Azure services, and distributed systems.</p>
+        <p>I've built software across e-commerce, gaming backoffice, and government platforms. I believe in clean, testable code and shipping things that actually work for real users.</p>
+        <a href="#" class="resume-btn">Download Resume &rarr;</a>
+      </div>
+      <div class="col">
+        <div class="detail-row"><span class="key">Location</span><span>Philippines</span></div>
+        <div class="detail-row"><span class="key">Primary Stack</span><span>C# / .NET 8</span></div>
+        <div class="detail-row"><span class="key">Experience</span><span>5+ years</span></div>
+        <div class="detail-row"><span class="key">Sectors</span><span>Enterprise, Gaming, Gov</span></div>
+        <div class="detail-row"><span class="key">Status</span><span style="color:var(--accent);">Open to work</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills">
+  <div class="container">
+    <div class="section-header">
+      <div class="label"><span class="num">02</span> Skills</div>
+      <h2>Tools of the trade.</h2>
+    </div>
+    <div class="skills-layout">
+      <div></div>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <div class="cat-name">Backend / .NET</div>
+          <div class="skill-line"><span class="name">C#</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span></div></div>
+          <div class="skill-line"><span class="name">ASP.NET Core</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></div></div>
+          <div class="skill-line"><span class="name">Entity Framework</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></div></div>
+          <div class="skill-line"><span class="name">SQL Server</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></div></div>
+        </div>
+        <div class="skill-category">
+          <div class="cat-name">Frontend</div>
+          <div class="skill-line"><span class="name">Blazor</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span><span></span></div></div>
+          <div class="skill-line"><span class="name">React / Next.js</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></div></div>
+          <div class="skill-line"><span class="name">TypeScript</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span><span></span></div></div>
+          <div class="skill-line"><span class="name">HTML / CSS</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></div></div>
+        </div>
+        <div class="skill-category">
+          <div class="cat-name">Cloud / DevOps</div>
+          <div class="skill-line"><span class="name">Azure</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span><span></span></div></div>
+          <div class="skill-line"><span class="name">Docker</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span><span></span></div></div>
+          <div class="skill-line"><span class="name">Git</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></div></div>
+          <div class="skill-line"><span class="name">CI/CD</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span><span></span></div></div>
+        </div>
+        <div class="skill-category">
+          <div class="cat-name">Architecture</div>
+          <div class="skill-line"><span class="name">Clean Architecture</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></div></div>
+          <div class="skill-line"><span class="name">Microservices</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span><span></span></div></div>
+          <div class="skill-line"><span class="name">REST API Design</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></div></div>
+          <div class="skill-line"><span class="name">CQRS / MediatR</span><div class="dots"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span><span></span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects">
+  <div class="container">
+    <div class="section-header">
+      <div class="label"><span class="num">03</span> Work</div>
+      <h2>Selected projects.</h2>
+    </div>
+    <div class="project-filters">
+      <button class="active">All</button>
+      <button>Backend</button>
+      <button>Full Stack</button>
+      <button>API</button>
+    </div>
+    <div class="project-entries">
+      <div class="project-entry">
+        <div class="cat">Full Stack</div>
+        <div class="num">I</div>
+        <div class="title-block">
+          <h3>Bticket E-Commerce System</h3>
+          <div class="desc">End-to-end ticketing platform handling payments, inventory, and live event management.</div>
+        </div>
+        <div class="tech-list"><span>C#</span><span>.NET 8</span><span>SQL Server</span><span>React</span></div>
+      </div>
+      <div class="project-entry">
+        <div class="cat">Backend</div>
+        <div class="num">II</div>
+        <div class="title-block">
+          <h3>Gaming BackOffice</h3>
+          <div class="desc">Admin panel with real-time analytics, user management, and reporting dashboards.</div>
+        </div>
+        <div class="tech-list"><span>ASP.NET</span><span>SignalR</span><span>Redis</span></div>
+      </div>
+      <div class="project-entry">
+        <div class="cat">Full Stack</div>
+        <div class="num">III</div>
+        <div class="title-block">
+          <h3>Scholarship Management</h3>
+          <div class="desc">Government system for processing applications, disbursements, and status tracking.</div>
+        </div>
+        <div class="tech-list"><span>C#</span><span>EF Core</span><span>Blazor</span></div>
+      </div>
+      <div class="project-entry">
+        <div class="cat">API</div>
+        <div class="num">IV</div>
+        <div class="title-block">
+          <h3>API Gateway Service</h3>
+          <div class="desc">Centralized gateway handling auth, rate limiting, and request routing across microservices.</div>
+        </div>
+        <div class="tech-list"><span>.NET</span><span>Redis</span><span>Docker</span></div>
+      </div>
+      <div class="project-entry">
+        <div class="cat">Full Stack</div>
+        <div class="num">V</div>
+        <div class="title-block">
+          <h3>Real-Time Chat Platform</h3>
+          <div class="desc">WebSocket-powered messaging with channels, presence detection, and file sharing.</div>
+        </div>
+        <div class="tech-list"><span>SignalR</span><span>Blazor</span><span>Azure</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience">
+  <div class="container">
+    <div class="section-header">
+      <div class="label"><span class="num">04</span> Career</div>
+      <h2>Work experience.</h2>
+    </div>
+    <div class="exp-list">
+      <div class="spacer-col"></div>
+      <div class="exp-items">
+        <div class="exp-row">
+          <div class="period">2023 &mdash; Now</div>
+          <div class="info">
+            <h3>Full Stack Developer</h3>
+            <div class="org">Betrnk Tours Inc.</div>
+            <div class="summary">Architected e-commerce platform serving 10K+ users. Built real-time gaming backoffice. Implemented CI/CD pipelines reducing deployment time by 60%.</div>
+          </div>
+        </div>
+        <div class="exp-row">
+          <div class="period">2022 &mdash; 2023</div>
+          <div class="info">
+            <h3>Backend Developer</h3>
+            <div class="org">EK Consulting</div>
+            <div class="summary">Designed RESTful APIs for enterprise resource planning. Optimized database queries improving response times by 40%.</div>
+          </div>
+        </div>
+        <div class="exp-row">
+          <div class="period">2021 &mdash; 2022</div>
+          <div class="info">
+            <h3>Freelance Developer</h3>
+            <div class="org">Self-employed</div>
+            <div class="summary">Delivered 8+ client projects across web and mobile. Built custom CMS and inventory management systems.</div>
+          </div>
+        </div>
+        <div class="exp-row">
+          <div class="period">2020 &mdash; 2021</div>
+          <div class="info">
+            <h3>Junior Developer</h3>
+            <div class="org">Government Agency</div>
+            <div class="summary">Developed scholarship management system. Maintained legacy applications and migrated to modern .NET stack.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact">
+  <div class="container">
+    <div class="section-header">
+      <div class="label"><span class="num">05</span> Contact</div>
+      <h2>Let's work together.</h2>
+    </div>
+    <div class="contact-layout">
+      <div></div>
+      <div class="cta-col">
+        <p>Got a .NET project or need a backend developer? I'm always open to discussing new ideas, opportunities, and collaborations.</p>
+        <ul class="links-list">
+          <li><span class="ico">&#9993;</span> jcoraa@email.com</li>
+          <li><span class="ico">&#9741;</span> github.com/jcoraa</li>
+          <li><span class="ico">in</span> linkedin.com/in/jcoraa</li>
+          <li><span class="ico">&#127760;</span> Philippines</li>
+        </ul>
+      </div>
+      <div class="form-col">
+        <input type="text" placeholder="Name">
+        <input type="email" placeholder="Email">
+        <input type="text" placeholder="Subject">
+        <textarea placeholder="Your message..."></textarea>
+        <button class="submit-btn">Send Message &rarr;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="copyright">&copy; 2025 John Christian Oraa</div>
+      <ul class="social">
+        <li>GitHub</li>
+        <li>LinkedIn</li>
+        <li>Twitter</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
