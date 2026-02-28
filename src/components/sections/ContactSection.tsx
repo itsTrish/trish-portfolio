@@ -63,7 +63,7 @@ export function ContactSection() {
     "bg-surface-2 border border-border px-3.5 py-3 font-mono text-[13px] text-text rounded-[3px] outline-none focus:border-mauve transition-colors";
 
   return (
-    <section id="contact" className="py-6 pr-4 sm:pr-12">
+    <section id="contact" className="py-4 sm:py-6 pr-2 sm:pr-12">
       <CodeBlock>
         <CodeLine lineNumber={30}>
           <Comment>// --- Contact ---</Comment>
@@ -77,8 +77,8 @@ export function ContactSection() {
 
       <RenderBlock>
         <FadeInWhenVisible>
-          <div className="bg-surface border border-border p-8 sm:p-12 rounded">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <div className="bg-surface border border-border p-5 sm:p-8 md:p-12 rounded">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
               <div>
                 <h2 className="text-2xl sm:text-[28px] font-semibold mb-3">
                   Let&apos;s Connect
@@ -91,13 +91,13 @@ export function ContactSection() {
                 <div className="flex flex-col gap-3">
                   <a
                     href={`mailto:${personal.email}`}
-                    className="font-mono text-[13px] text-blue no-underline flex items-center gap-2 hover:text-mauve transition-colors"
+                    className="font-mono text-[12px] sm:text-[13px] text-blue no-underline flex items-center gap-2 hover:text-mauve transition-colors break-all sm:break-normal"
                   >
                     &#9993; {personal.email}
                   </a>
                   <a
                     href={`https://${personal.github}`}
-                    className="font-mono text-[13px] text-blue no-underline flex items-center gap-2 hover:text-mauve transition-colors"
+                    className="font-mono text-[12px] sm:text-[13px] text-blue no-underline flex items-center gap-2 hover:text-mauve transition-colors break-all sm:break-normal"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -105,13 +105,13 @@ export function ContactSection() {
                   </a>
                   <a
                     href={`https://${personal.linkedin}`}
-                    className="font-mono text-[13px] text-blue no-underline flex items-center gap-2 hover:text-mauve transition-colors"
+                    className="font-mono text-[12px] sm:text-[13px] text-blue no-underline flex items-center gap-2 hover:text-mauve transition-colors break-all sm:break-normal"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     &#128101; {personal.linkedin}
                   </a>
-                  <span className="font-mono text-[13px] text-blue flex items-center gap-2">
+                  <span className="font-mono text-[12px] sm:text-[13px] text-blue flex items-center gap-2">
                     &#127760; {personal.location}
                   </span>
                 </div>

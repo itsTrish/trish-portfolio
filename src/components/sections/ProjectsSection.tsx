@@ -20,7 +20,7 @@ export function ProjectsSection() {
       : projects.filter((p) => p.category === activeFilter);
 
   return (
-    <section id="projects" className="py-6 pr-4 sm:pr-12">
+    <section id="projects" className="py-4 sm:py-6 pr-2 sm:pr-12">
       <CodeBlock>
         <CodeLine lineNumber={21}>
           <Comment>// --- Projects Section ---</Comment>
@@ -34,11 +34,11 @@ export function ProjectsSection() {
 
       <RenderBlock>
         <FadeInWhenVisible>
-          <div className="bg-surface border border-border p-8 sm:p-12 rounded">
-            <h2 className="text-2xl sm:text-[28px] font-semibold mb-3">
+          <div className="bg-surface border border-border p-4 sm:p-8 md:p-12 rounded">
+            <h2 className="text-xl sm:text-2xl md:text-[28px] font-semibold mb-3">
               Selected Projects
             </h2>
-            <div className="flex gap-1 mb-8 flex-wrap">
+            <div className="flex gap-1 mb-4 sm:mb-8 flex-wrap">
               {projectFilters.map((filter) => (
                 <button
                   key={filter}

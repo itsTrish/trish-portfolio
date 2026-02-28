@@ -14,7 +14,7 @@ import { skillCategories } from "@/data/skills";
 
 export function SkillsSection() {
   return (
-    <section id="skills" className="py-6 pr-4 sm:pr-12">
+    <section id="skills" className="py-4 sm:py-6 pr-2 sm:pr-12">
       <CodeBlock>
         <CodeLine lineNumber={16}>
           <Comment>// --- Skills Section ---</Comment>
@@ -28,11 +28,11 @@ export function SkillsSection() {
 
       <RenderBlock>
         <FadeInWhenVisible>
-          <div className="bg-surface border border-border p-8 sm:p-12 rounded">
-            <h2 className="text-2xl sm:text-[28px] font-semibold mb-8">
+          <div className="bg-surface border border-border p-5 sm:p-8 md:p-12 rounded">
+            <h2 className="text-xl sm:text-2xl md:text-[28px] font-semibold mb-6 sm:mb-8">
               Technical Skills
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {skillCategories.map((category) => (
                 <StaggerContainer key={category.title}>
                   <div className="font-mono text-[11px] uppercase tracking-widest text-mauve pb-3 border-b border-border mb-4">

@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { cn } from "@/lib/cn";
 import type { SectionId } from "@/types";
 import { TitleBar } from "./TitleBar";
 import { ActivityBar } from "./ActivityBar";
@@ -33,6 +34,15 @@ export function IDEShell({ children }: Props) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     setMobileMenuOpen(false);
+  }, []);
+
+  // Close mobile menu on resize to desktop
+  useEffect(() => {
+    const handler = () => {
+      if (window.innerWidth >= 768) setMobileMenuOpen(false);
+    };
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
   }, []);
 
   // Scroll spy
@@ -74,6 +84,18 @@ export function IDEShell({ children }: Props) {
     return () => window.removeEventListener("keydown", handler);
   }, [scrollToSection]);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <div className="min-h-screen">
       <TitleBar activeSection={activeSection} onTabClick={scrollToSection} />
@@ -81,7 +103,7 @@ export function IDEShell({ children }: Props) {
       {/* Mobile hamburger */}
       <button
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        className="fixed top-2.5 right-4 z-[60] md:hidden font-mono text-text-dim hover:text-text text-lg"
+        className="fixed top-2 right-3 z-[60] md:hidden font-mono text-text hover:text-mauve text-xl w-10 h-10 flex items-center justify-center"
         aria-label="Toggle menu"
       >
         {mobileMenuOpen ? "\u2715" : "\u2630"}
@@ -103,7 +125,7 @@ export function IDEShell({ children }: Props) {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-10 left-0 bottom-6 w-[220px] z-50 md:hidden"
+              className="fixed top-10 left-0 bottom-6 w-[260px] z-50 md:hidden shadow-2xl"
             >
               <Explorer
                 activeSection={activeSection}
@@ -115,13 +137,18 @@ export function IDEShell({ children }: Props) {
         )}
       </AnimatePresence>
 
+      {/* Desktop: activity bar + optional sidebar + main
+           Mobile: just main content (single column) */}
       <div
-        className="grid min-h-screen pt-10 pb-6"
-        style={{
-          gridTemplateColumns: sidebarOpen
-            ? "48px 220px 1fr"
-            : "48px 1fr",
-        }}
+        className={cn(
+          "grid min-h-screen pt-10 pb-6",
+          // Mobile: single column
+          "grid-cols-[1fr]",
+          // Desktop with sidebar
+          sidebarOpen
+            ? "md:grid-cols-[48px_220px_1fr]"
+            : "md:grid-cols-[48px_1fr]"
+        )}
       >
         {/* Activity bar - hidden on mobile */}
         <ActivityBar

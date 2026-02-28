@@ -9,7 +9,7 @@ import { personal } from "@/data/personal";
 
 export function AboutSection() {
   return (
-    <section id="about" className="py-6 pr-4 sm:pr-12">
+    <section id="about" className="py-4 sm:py-6 pr-2 sm:pr-12">
       <CodeBlock>
         <CodeLine lineNumber={11}>
           <Comment>// --- About Section ---</Comment>
@@ -22,9 +22,9 @@ export function AboutSection() {
 
       <RenderBlock>
         <FadeInWhenVisible>
-          <div className="bg-surface border border-border p-8 sm:p-12 rounded">
-            <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 md:gap-12">
-              <div className="aspect-square bg-surface-2 border border-dashed border-border flex items-center justify-center font-mono text-[11px] text-text-dim rounded">
+          <div className="bg-surface border border-border p-5 sm:p-8 md:p-12 rounded">
+            <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-6 md:gap-12">
+              <div className="aspect-square max-w-[200px] mx-auto md:max-w-none md:mx-0 bg-surface-2 border border-dashed border-border flex items-center justify-center font-mono text-[11px] text-text-dim rounded">
                 [ photo ]
               </div>
               <div>

@@ -17,7 +17,7 @@ export function HeroSection() {
   };
 
   return (
-    <section id="hero" className="py-10 pr-4 sm:pr-12">
+    <section id="hero" className="py-6 sm:py-10 pr-2 sm:pr-12">
       <CodeBlock>
         <CodeLine lineNumber={1}>
           <Keyword>namespace</Keyword> Portfolio.Sections;
@@ -50,7 +50,7 @@ export function HeroSection() {
         </div>
 
         <motion.h1
-          className="text-4xl sm:text-5xl font-bold leading-[1.1] mb-4 tracking-tight"
+          className="text-3xl sm:text-5xl font-bold leading-[1.1] mb-4 tracking-tight"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.2 }}
@@ -74,7 +74,7 @@ export function HeroSection() {
         </motion.h1>
 
         <motion.p
-          className="text-base text-text-dim leading-relaxed max-w-[540px] mb-8"
+          className="text-sm sm:text-base text-text-dim leading-relaxed max-w-[540px] mb-6 sm:mb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8 }}
@@ -94,7 +94,7 @@ export function HeroSection() {
       </RenderBlock>
 
       <FadeInWhenVisible delay={0.3}>
-        <div className="my-6 sm:ml-20 ml-4 mr-4 max-w-[900px]">
+        <div className="my-4 sm:my-6 mx-3 sm:ml-20 sm:mr-4 max-w-[900px]">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {stats.map((stat) => (
               <div

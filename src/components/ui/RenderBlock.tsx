@@ -11,9 +11,9 @@ export function RenderBlock({ children, className, variant = "default" }: Props)
   return (
     <div
       className={cn(
-        "my-6 sm:ml-20 ml-4 mr-4 max-w-[900px]",
+        "my-4 sm:my-6 mx-3 sm:ml-20 sm:mr-4 max-w-[900px]",
         variant === "hero" &&
-          "px-8 py-12 sm:px-14 sm:py-20 bg-surface border border-border rounded",
+          "px-5 py-8 sm:px-14 sm:py-20 bg-surface border border-border rounded",
         className
       )}
     >

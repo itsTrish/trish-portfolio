@@ -13,7 +13,7 @@ import { experiences } from "@/data/experience";
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="py-6 pr-4 sm:pr-12">
+    <section id="experience" className="py-4 sm:py-6 pr-2 sm:pr-12">
       <CodeBlock>
         <CodeLine lineNumber={26}>
           <Comment>// --- Experience ---</Comment>
@@ -27,14 +27,14 @@ export function ExperienceSection() {
 
       <RenderBlock>
         <FadeInWhenVisible>
-          <div className="bg-surface border border-border p-8 sm:p-12 rounded">
-            <h2 className="text-2xl sm:text-[28px] font-semibold mb-8">
+          <div className="bg-surface border border-border p-5 sm:p-8 md:p-12 rounded">
+            <h2 className="text-xl sm:text-2xl md:text-[28px] font-semibold mb-6 sm:mb-8">
               Work Experience
             </h2>
             <StaggerContainer>
               {experiences.map((exp, i) => (
                 <StaggerItem key={i}>
-                  <div className="grid grid-cols-1 sm:grid-cols-[160px_1fr] gap-2 sm:gap-8 py-7 border-t border-border">
+                  <div className="grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-1 sm:gap-8 py-5 sm:py-7 border-t border-border">
                     <div className="font-mono text-xs text-text-dim">
                       {exp.period}
                     </div>
